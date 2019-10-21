@@ -18,8 +18,9 @@ class App extends Component {
     };
   }
 
-  editUser(id, changes) {
-    Tasks.update(id, changes);
+  editUser() {
+    // Tasks.update(id, changes);
+    this.setState({isEditing: false, id: null });
   }
 
 
@@ -106,6 +107,7 @@ class App extends Component {
             Meteor.call('eits.bulk_delete', this.state.eitsToDelete);
           }}>Delete Selected</button>
             </form> : <Edit editUser={this.editUser.bind(this)} user={this.state.user} />
+            
           }
           
         </header>

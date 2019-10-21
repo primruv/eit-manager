@@ -66,6 +66,8 @@ export default class Edit extends Component{
     console.log(this.state)
     this.setState({isEditing: !this.state.isEditing, id: !this.state.id})
     console.log(this.state)
+
+    this.props.editUser();
   }
 
   render(){
@@ -103,7 +105,7 @@ export default class Edit extends Component{
               value= {this.state.age}
               onChange={this.onChangeAge}
             />
-            <button className="add" type="submit">Add</button>
+            <button className="add" type="submit">Edit</button>
           </form>
     )
   }
