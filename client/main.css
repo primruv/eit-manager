@@ -16,6 +16,8 @@ body {
  
   font-size: 14px;
 }
+
+
  
 .container {
   max-width: 700px;
@@ -47,8 +49,10 @@ form {
   margin-top: 10px;
   margin-bottom: 30px;
   position: relative;
+
 }
  
+
 .new-task input {
   box-sizing: border-box;
   padding: 10px 0;
@@ -69,6 +73,7 @@ ul {
   background: white;
 }
  
+
 .delete {
   float: right;
   font-weight: bold;
@@ -79,19 +84,44 @@ ul {
 }
 .bulkDelete {
  
-  position: fixed;
-  right: 400px;
-  top: 230px;
+  position: relative;
+  right: -230px;
+  top: 40px;
   width: 180px;
+  color: red;
 
 }
 .add{
-  position: fixed;
-  left: 400px;
-  top: 230px;
+  position: relative;
+  left: 10px;
+  top: 40px;
   width: 180px;
+  color: #20B2AA;
+  
 }
 
+
+.edit{
+  padding-right: 30px;
+  text-decoration: none;
+}
+
+.editButton{
+  position: fixed;
+  right: 330px;
+  top: 160px;
+  width: 180px;
+  height: 30px;
+  border:2px; 
+  background-color: #20B2AA;
+
+}
+
+.editForm{
+  border-style: solid;
+  border: 2px solid #20B2AA;
+  border-radius: 5px;
+}
  
 li {
   position: relative;

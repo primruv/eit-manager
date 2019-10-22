@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tasks } from '../api/tasks.js';
+import {Link} from 'react-router-dom';
  
 // Task component - represents a single todo item
 export default class Task extends Component {
@@ -12,22 +13,26 @@ export default class Task extends Component {
   }
 
 
-  delete(id){
-    Tasks.remove(id);
-  }
+  // delete(id){
+  //   Tasks.remove(id);
+  // }
   
   render() {
+    // console.log(this.props.owner);
     //const taskClassName = this.props.task.checked ? 'checked' : '';
     return (
       
       <li id={this.props.id}>
-       <button className="delete" onClick= {() => this.delete(this.props.id)}>
+       {this.props.currentUser && this.props.currentUser._id === this.props.owner ? 
+       <button className="delete" onClick= {() => Meteor.call('eits.delete',this.props.id )}>
           &times;
-        </button>
-        <button className="edit" onClick={() => this.props.setEitToEdit(this.props.id)}>
-          Edit
-        </button>
-        <input
+        </button> : ''}
+        { this.props.currentUser && this.props.currentUser._id === this.props.owner ?
+          <Link  to={`/edit/${this.props.id}`} className="edit">Edit </Link> : ""
+        }
+        
+        {this.props.currentUser && this.props.currentUser._id === this.props.owner ? 
+        <input 
           type="checkbox"
           readOnly
           onChange={e => {
@@ -37,8 +42,11 @@ export default class Task extends Component {
               this.props.removeFromSelected(this.props.id);
             }
           }}
-        />
-        {this.props.textUsername} {this.props.userSurname} {this.props.country} {this.props.age} 
+        /> : ""}
+        <span>
+        {this.props.textUsername}  {this.props.userSurname} {this.props.country} {this.props.age} 
+        </span>
+       
         </li>
     
     );

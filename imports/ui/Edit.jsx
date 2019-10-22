@@ -1,27 +1,28 @@
 import React, {Component} from 'react';
-// import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';
+import ReactDOM from 'react-dom';
 import {Tasks} from '../api/tasks.js'
 
 
-export default class Edit extends Component{
+class Edit extends Component{
   constructor(props){
     super(props);
-    console.log(props);
-
+    // console.log(props);
+    // const user = Tasks.findOne(this.props.match.params.id);
+    // console.log(user)
     this.onChangeName = this.onChangeName.bind(this)
     this.onChangeSurname = this.onChangeSurname.bind(this)
     this.onChangeAge = this.onChangeAge.bind(this)
     this.onChangeCountry = this.onChangeCountry.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.state = {
-      isEditing: false,
-      id: '',
-      textUsername : this.props.user.textUsername,
-      userSurname : this.props.user.userSurname,
-      country : this.props.user.country,
-      age : this.props.user.age
+      textUsername : '',
+      userSurname : '',
+      country : '',
+      age : ''
     }
   }
+
 
   onChangeName(e){
     e.preventDefault()
@@ -51,62 +52,79 @@ export default class Edit extends Component{
     })
   }
 
-  onSubmit(e){
-    e.preventDefault()
 
-    const updatedData = {
-      textUsername: this.state.textUsername,
-      userSurname: this.state.userSurname,
-      country: this.state.country,
-      age: this.state.age
+
+  onSubmit(e){
+    e.preventDefault();
+
+
+    const textUsername = ReactDOM.findDOMNode(this.refs.textUsername).value.trim();
+    const userSurname = ReactDOM.findDOMNode(this.refs.userSurname).value.trim();
+    const country = ReactDOM.findDOMNode(this.refs.country).value.trim();
+    const age = ReactDOM.findDOMNode(this.refs.age).value.trim();
+
+    const editing = {
+      textUsername,
+      userSurname,
+      country,
+      age
     }
 
-    // Tasks.update(this.props.user.id, updatedData);
-    Tasks.update(this.props.user._id, updatedData);
-    console.log(this.state)
-    this.setState({isEditing: !this.state.isEditing, id: !this.state.id})
-    console.log(this.state)
+    Meteor.call("eits.create", editing );
 
-    this.props.editUser();
+    //Tasks.update(this.props.eit._id, { textUsername, userSurname, country, age });
+    // Tasks.update(this.props.user._id, updatedData);
+    // console.log(textUsername, userSurname, country, age);
+
+    this.props.history.push("/");
   }
 
-  render(){
-
-    console.log(this.props.user);
-
+  render() {
+    const eit = this.props.eit;
     return(
-      <form className="new-task" onSubmit={this.onSubmit} >
-            <input type="text" name="id" readOnly value={this.props.user.id} hidden/>
-            <input
-              type="text"
-              name="textName"
-              placeholder="Name"
-              value= {this.state.textUsername}
-              onChange={this.onChangeName}
-            />
-            <input
-              type="text"
-              name="textSurname"
-              placeholder="Surname"
-              value= {this.state.userSurname}
-              onChange={this.onChangeSurname}
-            />
-            <input
-              type="text"
-              name="textCountry"
-              placeholder="Country"
-              value= {this.state.country}
-              onChange={this.onChangeCountry}
-            />
-            <input
-              type="text"
-              name="age"
-              placeholder="Age"
-              value= {this.state.age}
-              onChange={this.onChangeAge}
-            />
-            <button className="add" type="submit">Edit</button>
-          </form>
+      <form className="new-task editForm container" onSubmit={this.onSubmit} >
+        <input 
+          type="text"
+          name="textName"
+          placeholder="Name"
+          ref="textUsername"
+          defaultValue={eit ? eit.textUsername : ''}
+          onChange={this.onChangeName}
+        />
+        <input
+          type="text"
+          name="textSurname"
+          placeholder="Surname"
+          ref="userSurname"
+          defaultValue={eit ? eit.userSurname : ''}
+          onChange={this.onChangeSurname}
+        />
+        <input
+          type="text"
+          name="textCountry"
+          placeholder="Country"
+          ref="country"
+          defaultValue={eit ? eit.country : ''}
+          onChange={this.onChangeCountry}
+        />
+        <input
+          type="text"
+          name="age"
+          placeholder="Age"
+          ref="age"
+          defaultValue={eit ? eit.age : ''}
+          onChange={this.onChangeAge}
+        />
+        <button className="editButton" type="submit">Update</button>
+      </form>
     )
   }
 }
+
+export default withTracker((props) => {
+  const id = props.match.params.id;
+  console.log(id);
+  return {
+    eit: Tasks.findOne({ _id: id })
+  }
+})(Edit);
