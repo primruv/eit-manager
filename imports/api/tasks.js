@@ -45,7 +45,7 @@ Meteor.methods({
       } = editEit
       if(!Meteor.user()) throw new Meteor.Error("Not Authorised")
 
-      Tasks.update(id, { textUsername, userSurname, country, age });
+        Tasks.update(id, {$set:  {textUsername, userSurname, country, age} });
     }
     
 

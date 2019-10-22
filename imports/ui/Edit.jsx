@@ -70,7 +70,7 @@ class Edit extends Component{
       age
     }
 
-    Meteor.call("eits.create", editing );
+    Meteor.call("eits.edit", editing ,this.props.eit._id );
 
     //Tasks.update(this.props.eit._id, { textUsername, userSurname, country, age });
     // Tasks.update(this.props.user._id, updatedData);
