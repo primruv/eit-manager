@@ -43,9 +43,9 @@ export default class Task extends Component {
             }
           }}
         /> : ""}
-        <span>
+        
         {this.props.textUsername}  {this.props.userSurname} {this.props.country} {this.props.age} 
-        </span>
+        
        
         </li>
     
