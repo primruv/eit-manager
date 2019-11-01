@@ -3,11 +3,12 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
  
 export const Tasks = new Mongo.Collection('EITS');
-// This code only runs on the server
-Meteor.publish('EITS', function tasksPublication() {
-  return Tasks.find({
+// This code only runs on the server..
+if(Meteor.isServer){
+  Meteor.publish('EITS', function tasksPublication() {
+    return Tasks.find();
   });
-});
+}
 
 
 Meteor.methods({
